@@ -1,0 +1,37 @@
+nav {
+    font-size: 120%;
+    font-weight: bolder;
+    background-color: #303D60;
+    color: white;
+}
+
+/* by using "nav ul" instead of just "ul", only an unordered list in the nav bar will take on this styling, meaning it doesn't mess up unordered lists in the main content */
+nav ul {
+    list-style-type: none;
+    text-align: center;
+    margin-top: 0px;
+    padding: 0px;
+}
+
+nav li {
+    display: inline;
+    margin-top: 100%;
+    margin-bottom: 100%;
+    padding: 5%;
+    font-size: 40px;
+}
+
+nav ul a:hover {
+    background-color: #3E4E7B;
+}
+
+.nav-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.nav-bar-item {
+    margin: 0px;
+    color: white;
+    text-decoration: none;
+}

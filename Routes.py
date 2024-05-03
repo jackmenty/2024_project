@@ -19,7 +19,7 @@ def item(id):
     cur = conn.cursor()
     cur.execute("SELECT * FROM bins WHERE id=?", (id,))
     pizza = cur.fetchone()
-    return render_template('DIOSMIOS.html', pizza=pizza)
+    return render_template('item.html', pizza=pizza)
 
 
 if __name__ == "__main__":
