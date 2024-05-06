@@ -1,7 +1,7 @@
 nav {
     font-size: 120%;
     font-weight: bolder;
-    background-color: #303D60;
+    background-color: #4a70d8;
     color: white;
 }
 
@@ -34,4 +34,9 @@ nav ul a:hover {
     margin: 0px;
     color: white;
     text-decoration: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
 }

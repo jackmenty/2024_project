@@ -8,6 +8,10 @@ app = Flask(__name__)
 def homepage():
     return render_template('layout.html')
 
+@app.route('/about')
+def aboutpage():
+    return render_template('about.html')
+
 @app.route('/search')
 def searchpage():
     return render_template('layout.html', 'search.html')
