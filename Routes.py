@@ -21,9 +21,9 @@ def searchpage():
 def item(id):
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
-    cur.execute("SELECT * FROM bins WHERE id=?", (id,))
-    pizza = cur.fetchone()
-    return render_template('item.html', pizza=pizza)
+    cur.execute("SELECT * FROM Trash WHERE id=?", (id,))
+    trash = cur.fetchone()
+    return render_template('item.html', trash=trash)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 nav {
-    font-size: 120%;
+    font-size: 100%;
     font-weight: bolder;
     background-color: #4a70d8;
     color: white;
@@ -10,18 +10,20 @@ nav ul {
     list-style-type: none;
     text-align: center;
     margin-top: 0px;
-    padding: 0px;
+    padding: 40px;
 }
 
 nav li {
     display: inline;
     margin-top: 100%;
     margin-bottom: 100%;
-    padding: 5%;
+    padding: 2.25%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
     font-size: 40px;
 }
 
-nav ul a:hover {
+nav ul li:hover {
     background-color: #3E4E7B;
 }
 
@@ -39,4 +41,21 @@ nav ul a:hover {
 body {
     margin: 0;
     padding: 0;
+}
+
+.footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(99, 44, 187);
+    color: white;
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    font-size: 100%;
+    font-size: 40px;
+  }
+
+img {
+    width: 600px;
 }
