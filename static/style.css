@@ -59,3 +59,17 @@ body {
 img {
     width: 600px;
 }
+
+h1{
+    font-size: 60px;
+}
+
+.display{
+    font-size: 30px;
+}
+
+br{
+    content: "A" !important;
+    display: block !important;
+    margin-bottom: 30px !important;
+}

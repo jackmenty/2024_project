@@ -6,16 +6,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def homepage():
-    return render_template('layout.html')
+    return render_template('home.html')
 
 @app.route('/about')
 def aboutpage():
     return render_template('about.html')
-
-@app.route('/search')
-def searchpage():
-    return render_template('layout.html', 'search.html')
-
 
 @app.route('/item/<int:id>')
 def item(id):
@@ -24,6 +19,14 @@ def item(id):
     cur.execute("SELECT * FROM Trash WHERE id=?", (id,))
     trash = cur.fetchone()
     return render_template('item.html', trash=trash)
+
+@app.route('/search')
+def search():
+    conn = sqlite3.connect("Webdatabase.db")
+    cur = conn.cursor()
+    cur.execute("SELECT id, name FROM Trash")
+    trashes = cur.fetchall()
+    return render_template('search.html', trashes=trashes)
 
 
 if __name__ == "__main__":
