@@ -12,13 +12,27 @@ def homepage():
 def aboutpage():
     return render_template('about.html')
 
+@app.route('/help')
+def helppage():
+    return render_template('help.html')
+
 @app.route('/item/<int:id>')
 def item(id):
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
     cur.execute("SELECT * FROM Trash WHERE id=?", (id,))
     trash = cur.fetchone()
-    return render_template('item.html', trash=trash)
+    idp = id+1
+    idm = id-1
+    if id == 10:
+        id = 10
+        idm = id
+        idp = id
+    if id == 1:
+        id = 1
+        idp = id
+        idm = id
+    return render_template('item.html', trash=trash, idp=idp, idm=idm)
 
 @app.route('/search')
 def search():

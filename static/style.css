@@ -73,3 +73,10 @@ br{
     display: block !important;
     margin-bottom: 30px !important;
 }
+
+main a{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    text-decoration:none;
+}
