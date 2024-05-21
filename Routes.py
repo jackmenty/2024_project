@@ -6,7 +6,20 @@ app = Flask(__name__)
 
 @app.route('/')
 def homepage():
-    return render_template('home.html')
+    conn = sqlite3.connect("Webdatabase.db")
+    cur = conn.cursor()
+    cur.execute("SELECT bins FROM Trash")
+    bins = cur.fetchone()
+    color = "#246eff"
+    if bins == 1:
+        color = "#246eff"
+    if bins == 2 or bins == 6:
+        color = "#ff495c"
+    if bins == 3 or bins == 5 or bins == 7 or bins == 8:
+        color = "#f7cb15"
+    if bins == 4:
+        color = "#3ddc97"
+    return render_template('home.html', bins=bins, color=color)
 
 @app.route('/about')
 def aboutpage():
@@ -26,13 +39,24 @@ def item(id):
     idm = id-1
     if id == 10:
         id = 10
-        idm = id
         idp = id
     if id == 1:
         id = 1
-        idp = id
         idm = id
-    return render_template('item.html', trash=trash, idp=idp, idm=idm)
+    cur = conn.cursor()
+    cur.execute("SELECT bins FROM Trash WHERE id=?", (id,))
+    bins = cur.fetchone()
+    color = "#246eff"
+    print(bins)
+    if bins == (1,):
+        color = "#246eff"
+    if bins == (2,) or bins == (6,):
+        color = "#ff495c"
+    if bins == (3,) or bins == (5,) or bins == (7,) or bins == (8,):
+        color = "#f7cb15"
+    if bins == (4,):
+        color = "#3ddc97"
+    return render_template('item.html', trash=trash, idp=idp, idm=idm, color=color)
 
 @app.route('/search')
 def search():
