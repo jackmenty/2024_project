@@ -23,11 +23,13 @@ def homepage():
 
 @app.route('/about')
 def aboutpage():
-    return render_template('about.html')
+    color = "#246eff"
+    return render_template('about.html', color=color)
 
 @app.route('/help')
 def helppage():
-    return render_template('help.html')
+    color = "#246eff"
+    return render_template('help.html', color=color)
 
 @app.route('/item/<int:id>')
 def item(id):
@@ -64,7 +66,8 @@ def search():
     cur = conn.cursor()
     cur.execute("SELECT id, name FROM Trash")
     trashes = cur.fetchall()
-    return render_template('search.html', trashes=trashes)
+    color = "#246eff"
+    return render_template('search.html', trashes=trashes, color=color)
 
 
 if __name__ == "__main__":
