@@ -5,8 +5,10 @@
 <h1>{{trash[2]}}</h1>
 <img src = "/static/images/{{trash[5]}}" class = "image"/>
 <div>
+    <a {{hideforw}} href="{{ '/item/%s'%idp10 }}">nextforw</a>
     <a href="{{ '/item/%s'%idp }}">next</a>
     <a href="{{ '/item/%s'%idm }}">previous</a>
+    <a {{hideprev}} href="{{ '/item/%s'%idm10 }}">previousback</a>
 </div>
 
 {% endblock %}

@@ -1,4 +1,15 @@
 {% extends 'layout.html' %} 
 {% block content %} 
 <h1>blegbafasgadg</h1>
+<form action = "/help" method="POST">
+    <label for="name">NAME:</label> <br>
+    <input type="text" id="name" name="name"> <br>
+    <label for="description">DESCRIPTION:</label> <br>
+    <input type="text" id="description" name="description"><br>
+    <label for="bins">LABEL FOR BINS:</label> <br>
+    <input type="text" id="bins" name="bins"><br>
+    <label for="rrr">LABEL FOR THE 3 R(s):</label> <br>
+    <input type="text" id="rrr" name="rrr"><br>
+    <input type="submit" value="Submit">
+</form>
 {% endblock %}
