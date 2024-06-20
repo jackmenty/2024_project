@@ -47,20 +47,24 @@ def item(id):
     idm = id-1
     idp10 = id+10
     idm10 = id-10
-    hideprev = " "
+    hideprevall = " "
+    hideforwall = " "
     hideforw = " "
+    hideprev = " "
     if id == limitbig[0] or id >= limitbig[0]:  # Limits the user for going past page beyond the num of items
         id = limitbig[0]
         idp = id
         idp10 = id
+        hideforw = "hidden"
     if id == 1 or id <= 1:  # Limits the user for going past page beyond the num of items
         id = 1
         idm = id
         idm10 = id
-    if id <= 10:
         hideprev = "hidden"
-    if id >= limitbig[0]-10:
-        hideforw = "hidden"
+    if id <= 10:
+        hideprevall = "hidden"
+    if id+9 >= limitbig[0]:
+        hideforwall = "hidden"
     cur = conn.cursor()
     # Takes the condition number for color
     cur.execute("SELECT bins FROM Trash WHERE id=?", (id,))
@@ -75,7 +79,7 @@ def item(id):
         color = "#f7cb15"
     if bins == (4,):
         color = "#3ddc97"
-    return render_template('item.html', trash=trash, idp=idp, idm=idm, idp10=idp10, idm10=idm10, hideprev=hideprev, hideforw=hideforw, color=color)
+    return render_template('item.html', trash=trash, idp=idp, idm=idm, idp10=idp10, idm10=idm10, hideprev=hideprev, hideforw=hideforw, hideprevall=hideprevall, hideforwall=hideforwall, color=color)
 
 
 @app.route('/search')  # Route to search page

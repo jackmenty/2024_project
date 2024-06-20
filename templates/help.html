@@ -1,15 +1,127 @@
 {% extends 'layout.html' %} 
 {% block content %} 
-<h1>blegbafasgadg</h1>
+<h1>You can help insert info here</h1>
 <form action = "/help" method="POST">
     <label for="name">NAME:</label> <br>
     <input type="text" id="name" name="name"> <br>
     <label for="description">DESCRIPTION:</label> <br>
     <input type="text" id="description" name="description"><br>
-    <label for="bins">LABEL FOR BINS:</label> <br>
+    <label for="bins">LABEL FOR BINS (Please input a number from the table below):</label> <br>
     <input type="text" id="bins" name="bins"><br>
-    <label for="rrr">LABEL FOR THE 3 R(s):</label> <br>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Trash</th>
+            <th>Recyclable</th>
+            <th>Compost</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+        </tr>
+      </table><br>
+    <label for="rrr">LABEL FOR THE 3 R (Please input a number from the table below):</label> <br>
     <input type="text" id="rrr" name="rrr"><br>
-    <input type="submit" value="Submit">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Reduce</th>
+            <th>Reuse</th>
+            <th>Recycle</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>No</td>
+            <td>No</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Yes</td>
+            <td>No</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>No</td>
+            <td>Yes</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Yes</td>
+            <td>Yes</td>
+            <td>Yes</td>
+        </tr>
+      </table><br>
+      <input type="submit" value="Submit">
 </form>
 {% endblock %}

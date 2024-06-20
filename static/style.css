@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 nav {
   font-size: 100%;
   font-weight: bolder;
@@ -19,9 +20,10 @@ nav li {
   padding-top:2.39%;
   padding-bottom: 2.39%;
   font-size: 350%;
-  font-family: "Roboto", sans-serif;
+  font-family: "Staatliches", sans-serif;
   font-weight: 900;
   font-style: normal;
+
 }
 
 
@@ -31,6 +33,10 @@ nav ul li:hover {
   text-decoration: none
 }
 
+nav ul li:active {
+  background-color: #009be5;
+  color: white;
+}
 
 .nav-bar {
   display: grid;
@@ -69,7 +75,7 @@ body {
 
 h1{
   font-size: 300%;
-  font-family: "Roboto", sans-serif;
+  font-family: "Staatliches", sans-serif;
   font-weight: 700;
   font-style: normal;
 }
@@ -90,13 +96,14 @@ main a{
   border:1px solid #ccc;
   border-radius:5px;
   text-decoration:none;
-  font-family: "Roboto", sans-serif;
+  font-family: "Staatliches", sans-serif;
   font-weight: 500;
   font-style: normal;
 }
 
 a{
   text-decoration: none;
+  color:black
 }
 
 main div{
@@ -104,12 +111,15 @@ main div{
 }
 
 .logo{
-  width: 12.46%;
+  width: 10.75%;
   margin-bottom:-2.7%;
   margin-right: 4%;
   margin-left: 1%;
 }
 
+table, th, td {
+  border:1px solid black;
+}
 /* 
 .roboto-thin {
     font-family: "Roboto", sans-serif;
