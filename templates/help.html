@@ -3,11 +3,11 @@
 <h1>You can help insert info here</h1>
 <form action = "/help" method="POST">
     <label for="name">NAME:</label> <br>
-    <input type="text" id="name" name="name"> <br>
+    <input type="text" id="name" name="name" minlength="3" maxlength="15" required> <br>
     <label for="description">DESCRIPTION:</label> <br>
-    <input type="text" id="description" name="description"><br>
+    <input type="text" id="description" name="description" minlength="15" maxlength="150" required><br>
     <label for="bins">LABEL FOR BINS (Please input a number from the table below):</label> <br>
-    <input type="text" id="bins" name="bins"><br>
+    <input type="number" id="bins" name="bins" min="1" max="8" required><br>
     <table>
         <tr>
             <th>ID</th>
@@ -65,7 +65,7 @@
         </tr>
       </table><br>
     <label for="rrr">LABEL FOR THE 3 R (Please input a number from the table below):</label> <br>
-    <input type="text" id="rrr" name="rrr"><br>
+    <input type="number" id="rrr" name="rrr" min="1" max="8" required><br>
     <table>
         <tr>
             <th>ID</th>

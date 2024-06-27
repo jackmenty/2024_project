@@ -17,8 +17,8 @@ nav li {
   display: inline;
   padding-left: 5%;
   padding-right: 5%;
-  padding-top:2.39%;
-  padding-bottom: 2.39%;
+  padding-top:2.6%;
+  padding-bottom: 2.1%;
   font-size: 350%;
   font-family: "Staatliches", sans-serif;
   font-weight: 900;
@@ -34,7 +34,8 @@ nav ul li:hover {
 }
 
 nav ul li:active {
-  background-color: #009be5;
+  opacity: 0.5;
+  background-color: #cfcfcf;
   color: white;
 }
 
@@ -90,6 +91,9 @@ br{
   margin-bottom: 30px !important;
 }
 
+main{
+  margin:10px;
+}
 main a{
   margin:10px;
   padding:10px;
@@ -119,6 +123,17 @@ main div{
 
 table, th, td {
   border:1px solid black;
+  font-family: "Staatliches", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  font-size: 110%;
+}
+
+label{
+  font-family: "Staatliches", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  font-size: 110%;
 }
 /* 
 .roboto-thin {

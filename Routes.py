@@ -82,14 +82,28 @@ def item(id):
     return render_template('item.html', trash=trash, idp=idp, idm=idm, idp10=idp10, idm10=idm10, hideprev=hideprev, hideforw=hideforw, hideprevall=hideprevall, hideforwall=hideforwall, color=color)
 
 
-@app.route('/search')  # Route to search page
-def search():
+@app.route('/search/<int:id>')  # Route to search page
+def search(id):
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
-    cur.execute("SELECT id, name FROM Trash")
+    cur.execute("SELECT id, name FROM Trash WHERE id <= 10 AND id > 10 * (?-1)", (id,))
     trashes = cur.fetchall()
     color = "#246eff"
-    return render_template('search.html', trashes=trashes, color=color)
+    cur.execute("SELECT id FROM Trash ORDER BY ID DESC")
+    limitbig = cur.fetchone()
+    hideforw = " "
+    hideprev = " "
+    idp = id+1
+    idm = id-1
+    if id == 1 or id <= 1:  # Limits the user for going past page beyond the num of items
+        id = 1
+        idm = id
+        hideprev = "hidden"
+    if id == limitbig[0]*10:
+        id = limitbig[0]
+        idp = id
+        hideforw = "hidden"
+    return render_template('search.html', trashes=trashes, color=color, idp=idp, idm=idm, hideprev=hideprev, hideforw=hideforw)
 
 
 if __name__ == "__main__":

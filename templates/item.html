@@ -3,12 +3,12 @@
 <h1>{{trash[0]}}</h1>
 <h1>{{trash[1]}}</h1>
 <h1>{{trash[2]}}</h1>
-<img src = "/static/images/{{trash[5]}}" class = "image"/>
-<div>
+<img src = "/static/images/{{trash[5]}}" class = "image" title="{{trash[1]}}"/>
+<div style="text-align: center;">
     <a {{hideprevall}} href="{{ '/item/%s'%idm10 }}">◀◀</a>
     <a {{hideprev}} href="{{ '/item/%s'%idm }}">◀Prev</a>
     <a {{hideforw}} href="{{ '/item/%s'%idp }}">Next▶</a>
-    <a {{hideforwall}} href="{{ '/item/%s'%idp10 }}">▶▶</a>
+    <a  {{hideforwall}} href="{{ '/item/%s'%idp10 }}">▶▶</a>
 </div>
 
 {% endblock %}
