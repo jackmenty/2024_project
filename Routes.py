@@ -24,11 +24,12 @@ def helppage():
     if request.method == "POST":
         name = request.form.get('name')
         description = request.form.get('description')
+        instructions = request.form.get('instructions')
         bins = request.form.get('bins')
         rrr = request.form.get('rrr')
         cur.execute("SELECT id FROM Trash ORDER BY ID DESC")
         id = cur.fetchone()
-        cur.execute("INSERT INTO Trash (id, name, description, bins, rrr) VALUES (?,?,?,?,?)", (id[0]+1, name, description, bins, rrr))
+        cur.execute("INSERT INTO Trash (id, name, description, instructions, bins, rrr) VALUES (?,?,?,?,?,?)", (id[0]+1, name, description, instructions, bins, rrr))
         conn.commit()
         conn.close()
     return render_template('help.html', color=color)
@@ -51,12 +52,14 @@ def item(id):
     hideforwall = " "
     hideforw = " "
     hideprev = " "
-    if id == limitbig[0] or id >= limitbig[0]:  # Limits the user for going past page beyond the num of items
+    # Limits the user for going past page beyond the num of items
+    if id == limitbig[0] or id >= limitbig[0]:
         id = limitbig[0]
         idp = id
         idp10 = id
         hideforw = "hidden"
-    if id == 1 or id <= 1:  # Limits the user for going past page beyond the num of items
+# Limits the user for going past page beyond the num of items
+    if id == 1 or id <= 1:
         id = 1
         idm = id
         idm10 = id
@@ -70,7 +73,7 @@ def item(id):
     cur.execute("SELECT bins FROM Trash WHERE id=?", (id,))
     bins = cur.fetchone()
     color = "#246eff"
-    # Below conditions checks number for unique color
+    # Below conditions checks number for unique colors
     if bins == (1,):
         color = "#246eff"
     if bins == (2,) or bins == (6,):
@@ -86,7 +89,7 @@ def item(id):
 def search(id):
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
-    cur.execute("SELECT id, name FROM Trash WHERE id <= 10 AND id > 10 * (?-1)", (id,))
+    cur.execute("SELECT id, name FROM Trash WHERE id <= ? * 10 AND id > 10 * (?-1)", (id, id))
     trashes = cur.fetchall()
     color = "#246eff"
     cur.execute("SELECT id FROM Trash ORDER BY ID DESC")
@@ -95,15 +98,16 @@ def search(id):
     hideprev = " "
     idp = id+1
     idm = id-1
-    if id == 1 or id <= 1:  # Limits the user for going past page beyond the num of items
+    # Limits the user going past page beyond the num of items
+    if id == 1 or id <= 1:
         id = 1
         idm = id
         hideprev = "hidden"
-    if id == limitbig[0]*10:
+    if id > round(limitbig[0]/10):
         id = limitbig[0]
         idp = id
         hideforw = "hidden"
-    return render_template('search.html', trashes=trashes, color=color, idp=idp, idm=idm, hideprev=hideprev, hideforw=hideforw)
+    return render_template('search.html', trashes=trashes, color=color, idp=idp, idm=idm, hideprev=hideprev, hideforw=hideforw,)
 
 
 if __name__ == "__main__":
