@@ -29,7 +29,9 @@ def helppage():
         rrr = request.form.get('rrr')
         cur.execute("SELECT id FROM Trash ORDER BY ID DESC")
         id = cur.fetchone()
-        cur.execute("INSERT INTO Trash (id, name, description, instructions, bins, rrr) VALUES (?,?,?,?,?,?)", (id[0]+1, name, description, instructions, bins, rrr))
+        cur.execute("""INSERT INTO Trash (id, name, description, instructions,
+                    bins, rrr) VALUES (?,?,?,?,?,?)""",
+                    (id[0]+1, name, description, instructions, bins, rrr))
         conn.commit()
         conn.close()
     return render_template('help.html', color=color)
@@ -82,14 +84,18 @@ def item(id):
         color = "#f7cb15"
     if bins == (4,):
         color = "#3ddc97"
-    return render_template('item.html', trash=trash, idp=idp, idm=idm, idp10=idp10, idm10=idm10, hideprev=hideprev, hideforw=hideforw, hideprevall=hideprevall, hideforwall=hideforwall, color=color)
+    return render_template('item.html', trash=trash, idp=idp, idm=idm,
+                           idp10=idp10, idm10=idm10, hideprev=hideprev,
+                           hideforw=hideforw, hideprevall=hideprevall,
+                           hideforwall=hideforwall, color=color)
 
 
 @app.route('/search/<int:id>')  # Route to search page
 def search(id):
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
-    cur.execute("SELECT id, name FROM Trash WHERE id <= ? * 10 AND id > 10 * (?-1)", (id, id))
+    cur.execute("""SELECT id, name, image FROM Trash WHERE id <= ? * 10
+                AND id > 10 * (?-1)""", (id, id))
     trashes = cur.fetchall()
     color = "#246eff"
     cur.execute("SELECT id FROM Trash ORDER BY ID DESC")
@@ -107,7 +113,9 @@ def search(id):
         id = limitbig[0]
         idp = id
         hideforw = "hidden"
-    return render_template('search.html', trashes=trashes, color=color, idp=idp, idm=idm, hideprev=hideprev, hideforw=hideforw,)
+    return render_template('search.html', trashes=trashes, color=color,
+                           idp=idp, idm=idm, hideprev=hideprev,
+                           hideforw=hideforw,)
 
 
 if __name__ == "__main__":

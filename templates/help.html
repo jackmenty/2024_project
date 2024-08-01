@@ -1,11 +1,11 @@
 {% extends 'layout.html' %} 
 {% block content %} 
 <h1>You can help insert info here</h1>
-<form action = "/help" method="POST">
+<form action = "/help" method="POST" class="box">
     <label for="name">NAME:</label> <br>
     <input type="text" id="name" name="name" minlength="3" maxlength="15" required> <br>
     <label for="description">DESCRIPTION:</label> <br>
-    <textarea rows="5" columns="15" id="description" name="description" rows="5" minlength="15" maxlength="150" required></textarea><br>
+    <textarea rows="10" columns="30" id="description" name="description" minlength="15" maxlength="150" required></textarea><br>
     <label for="instructions">INSTRUCTIONS:</label> <br>
     <input type="text" id="instructions" name="instructions" minlength="15" maxlength="150" required><br>
     <label for="bins">LABEL FOR BINS (Please input a number from the table below):</label> <br>

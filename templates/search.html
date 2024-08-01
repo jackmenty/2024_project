@@ -1,8 +1,15 @@
 {% extends 'layout.html' %} 
 {% block content %} 
+<div class="grid">
 {% for trash in trashes %}
-<a class="display" href="/item/{{trash[0]}}">{{trash[1]}}</a><br><!-- displays all names--> 
-{% endfor %}
-<a {{hideprev}} href="{{ '/search/%s'%idm }}">◀Prev</a>
-<a {{hideforw}} href="{{ '/search/%s'%idp }}">Next▶</a>
+    <div class="displaydiv" style="text-align: center;">
+        <img class="displayimg" src="/static/images/{{trash[2]}}"/> <br>
+        <a class="displaytxt" style="text-align: center;" href="/item/{{trash[0]}}">{{trash[1]}}</a><!-- displays all names--> 
+    </div>
+    {% endfor %}
+</div>
+<div style="text-align: center;">
+    <a class="button"{{hideprev}} href="{{ '/search/%s'%idm }}">◀Prev</a>
+    <a class="button"{{hideforw}} href="{{ '/search/%s'%idp }}">Next▶</a>
+</div>
 {% endblock %}

@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Vollkorn+SC:wght@400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 nav {
   font-size: 100%;
   font-weight: bolder;
@@ -21,7 +23,7 @@ nav li {
   padding-bottom: 2.1%;
   font-size: 350%;
   font-family: "Staatliches", sans-serif;
-  font-weight: 900;
+  font-weight: 700;
   font-style: normal;
 
 }
@@ -64,11 +66,18 @@ body {
   text-align: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  font-size: 40px;
-  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-family: "Staatliches", sans-serif;
   font-weight: 900;
   font-style: normal;
-  }
+}
+
+.footertext{
+  color: white;
+  text-decoration: underline;
+  margin-left:125px;
+  margin-right:125px;
+}
 
 .image {
   height: 300px;
@@ -78,54 +87,98 @@ body {
   border:2.5px dashed black;
 }
 
+.grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.displayimg{
+  margin-top:10px;
+  width: 200px;
+  border:2px solid #000000;
+}
+
+.displaytxt{
+  font-family: "Space Grotesk", serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size:30px;  
+  border:1px solid #808080;
+  border-radius:3px;
+  padding:5px;
+  background-color: #ffffff;
+}
+
+.displaydiv{
+  border: 2.5px dashed black;
+  width: 350px;
+  height: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  display:block;
+  background-color: rgb(231, 231, 231);
+}
+
 h1{
   font-size: 500%;
-  font-family: "Staatliches", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   font-style: normal;
 }
 
 h2{
-  font-size: 300%;
-  font-family: "Staatliches", sans-serif;
-  font-weight: 400;
+  font-size: 250%;
+  font-family: "Robot", sans-serif;
+  font-weight: 700;
   font-style: normal;
 }
 
 p{
-  font-size: 200%;
-  font-family: "Staatliches", sans-serif;
-  font-weight: 100;
+  font-size: 175%;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
   font-style: normal;
+  margin-left: auto;
+  margin-right: auto;
+  display:block;
+  text-align: center;
+  width: 700px;
 }
 
 label{
-  font-size: 150%;
+  font-size: 35px;
   font-family: "Staatliches", sans-serif;
   font-weight: 50;
   font-style: normal;
+  padding:50px;
+  
 }
 
-.display{
-  font-size: 30px;
+input{
+  margin-left:50px;
+  padding:10px;
+}
+
+textarea, table{
+  margin-left:50px;
 }
 
 br{
-  content: "A" !important;
-  display: block !important;
-  margin-bottom: 30px !important;
+  content: "A";
+  display: block;
+  margin-bottom:10px;
 }
 
 main{
   margin:10px;
 }
-main a{
+.button{
   margin:10px;
   padding:10px;
   border:1px solid #ccc;
   border-radius:5px;
-  text-decoration:none;
-  font-family: "Staatliches", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-weight: 500;
   font-style: normal;
 }
@@ -136,7 +189,7 @@ a{
 }
 
 main div{
-  margin:5%
+  margin-bottom:5%;
 }
 
 .logo{
@@ -164,8 +217,16 @@ table, th, td {
   height: auto;
   margin-left: auto;
   margin-right: auto;
-  display:block;
   padding-bottom:100px;
+  padding-top:50px;
+  border: dashed 5px;
+}
+
+input[type=submit]{
+  font-family: "Staatliches", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  font-size:20px;
 }
 /* 
 .roboto-thin {

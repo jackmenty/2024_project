@@ -13,7 +13,18 @@
     <nav style="background-color:{{color}}">{% include 'navbar.html' %}</nav>
     <main>{% block content %}{% endblock %}</main>
     <div class="footer">
-        <p>Footer</p>
+        <div>
+            <p> 
+                <a class="footertext" href="/">Home</a>   
+                <a class="footertext" href="/about">About</a> 
+            </p>
+        </div>
+        <div>
+            <p>
+                <a class="footertext" href="/help">Help</a>
+                <a class="footertext" href="/search/1">Search</a> 
+            </p>
+        </div>
     </div>
 </body>
 </html>
