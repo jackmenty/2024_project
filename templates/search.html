@@ -1,5 +1,12 @@
 {% extends 'layout.html' %} 
 {% block content %} 
+
+<form action='/search', method='post' style="margin-bottom: 15px;">
+    <label for='searchterm'>Thing you're searching for: </label>
+    <input type='text' id='searchterm', name='searchterm'>
+    <button type='submit'>SEARCH</button>
+</form>
+
 <div class="grid">
 {% for trash in trashes %}
     <div class="displaydiv" style="text-align: center;">

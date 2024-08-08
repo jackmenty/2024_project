@@ -19,6 +19,7 @@ def aboutpage():
 @app.route('/help', methods=["GET", "POST"])  # Route to the help page
 def helppage():
     color = "#246eff"
+    hidden = "hidden"
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
     if request.method == "POST":
@@ -34,7 +35,8 @@ def helppage():
                     (id[0]+1, name, description, instructions, bins, rrr))
         conn.commit()
         conn.close()
-    return render_template('help.html', color=color)
+        hidden = " "
+    return render_template('help.html', color=color, hidden=hidden)
 
 
 @app.route('/item/<int:id>')  # Route to a page about an item
@@ -116,6 +118,25 @@ def search(id):
     return render_template('search.html', trashes=trashes, color=color,
                            idp=idp, idm=idm, hideprev=hideprev,
                            hideforw=hideforw,)
+
+
+@app.route('/search', methods=['GET', 'POST'])  # Route to search page
+def searched():
+    if request.method == 'POST':
+        conn = sqlite3.connect("Webdatabase.db")
+        cur = conn.cursor()
+        # in other words, someone clicked submit, 'POSTing' info
+        # back to the server
+        search = f"%{request.form.get('searchterm')}%"
+        color = "#246eff"
+        # here is where you would do a query on your table for the search term
+        # provided, have a look at using LIKE and % in SQLite - something like
+        cur.execute("SELECT id, name, image FROM Trash WHERE name LIKE ?",
+                    (search, ))
+        trashes = cur.fetchall()
+        return render_template('search.html', trashes=trashes, color=color)
+    else:
+        return "poop"
 
 
 if __name__ == "__main__":

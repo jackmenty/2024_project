@@ -66,9 +66,9 @@ body {
   text-align: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  font-size: 20px;
+  font-size: 100%;
   font-family: "Staatliches", sans-serif;
-  font-weight: 900;
+  font-weight: 700;
   font-style: normal;
 }
 
@@ -77,6 +77,10 @@ body {
   text-decoration: underline;
   margin-left:125px;
   margin-right:125px;
+  font-family: "Staatliches", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 100%;
 }
 
 .image {
@@ -95,7 +99,7 @@ body {
 
 .displayimg{
   margin-top:10px;
-  width: 200px;
+  width: 50%;
   border:2px solid #000000;
 }
 
@@ -103,7 +107,7 @@ body {
   font-family: "Space Grotesk", serif;
   font-weight: 300;
   font-style: normal;
-  font-size:30px;  
+  font-size:150%;  
   border:1px solid #808080;
   border-radius:3px;
   padding:5px;
@@ -112,8 +116,8 @@ body {
 
 .displaydiv{
   border: 2.5px dashed black;
-  width: 350px;
-  height: 350px;
+  width: 100%;
+  height: 100%;
   margin-left: auto;
   margin-right: auto;
   display:block;
@@ -129,9 +133,19 @@ h1{
 
 h2{
   font-size: 250%;
-  font-family: "Robot", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 700;
   font-style: normal;
+}
+
+h6{
+  font-size: 250%;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  color:red;
+  margin:2%;
+  text-align: center;
 }
 
 p{
@@ -147,21 +161,20 @@ p{
 }
 
 label{
-  font-size: 35px;
-  font-family: "Staatliches", sans-serif;
-  font-weight: 50;
-  font-style: normal;
-  padding:50px;
-  
+  font-size: 250%;
+  font-family: "Space Grostik", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  margin-left:5%;
 }
 
 input{
-  margin-left:50px;
-  padding:10px;
+  margin-left:5%;
+  font-size: 250%;
 }
 
 textarea, table{
-  margin-left:50px;
+  margin-left:5%;
 }
 
 br{
@@ -194,6 +207,7 @@ main div{
 
 .logo{
   width: 10.75%;
+  height:10.75%;
   margin-bottom:-2.7%;
   margin-right: 4%;
   margin-left: 1%;
@@ -204,7 +218,7 @@ table, th, td {
   font-family: "Staatliches", sans-serif;
   font-weight: 100;
   font-style: normal;
-  font-size: 130%;
+  font-size: 180%;
 }
 
 .item{
@@ -213,20 +227,19 @@ table, th, td {
 
 .box{
   background-color: #e4e4e4;
-  width: 1400px;
-  height: auto;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  height:auto;
   padding-bottom:100px;
-  padding-top:50px;
   border: dashed 5px;
+  padding-top: 20px;
 }
 
-input[type=submit]{
-  font-family: "Staatliches", sans-serif;
-  font-weight: 100;
+input[type=submit], button[type=submit]{
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
   font-style: normal;
-  font-size:20px;
+  font-size:225%;
+  width: 25%;
 }
 /* 
 .roboto-thin {
