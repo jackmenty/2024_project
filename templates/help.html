@@ -1,10 +1,10 @@
 {% extends 'layout.html' %} 
 {% block content %} 
 <h1>You can help insert info here</h1>
-<form action = "/help" method="POST" class="box">
+<form action = "/help" method="POST" class="box" enctype="multipart/form-data">
     <h6 {{hidden}}>Thank you for the response, moderation will process for approval.</h6>
     <label for="name">NAME:</label> <br>
-    <input type="text" id="name" name="name" minlength="3" maxlength="15" required> <br>
+    <input type="text" id="name" name="name" minlength="3" maxlength="30" required> <br>
     <label for="description">DESCRIPTION:</label> <br>
     <textarea rows="10" columns="30" id="description" name="description" minlength="15" maxlength="150" required></textarea><br>
     <label for="instructions">INSTRUCTIONS:</label> <br>
@@ -125,6 +125,8 @@
             <td>Yes</td>
         </tr>
       </table><br>
+      <label for="image">Select a file:</label>
+      <input type="file" id="image" name="image" required>
       <input type="submit" value="SUBMIT">
 </form>
 {% endblock %}

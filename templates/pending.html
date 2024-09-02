@@ -1,0 +1,12 @@
+{% extends 'layout.html' %} 
+{% block content %} 
+{% for trash in trashes %}
+<div class="displaydiv" style="text-align: center;">
+    <h2>{{trash[0]}}</h2>
+    <h2>{{trash[1]}}</h2>
+    <h2>{{trash[2]}}</h2>
+    <h2>{{trash[3]}}</h2>
+    <h2>{{trash[4]}}</h2>
+</div>
+    {% endfor %}
+{% endblock %}

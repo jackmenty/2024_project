@@ -1,12 +1,18 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
+from werkzeug.utils import secure_filename
 import sqlite3
+import os
 
 app = Flask(__name__)
+UPLOAD_FOLDER = 'static/images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
 @app.route('/')  # Route to the homepage
 def homepage():
-    color = "#246eff"  # variable defines navbar color, repeats on most lines
+    # variable defines navbar color, repeats on most fucntions
+    color = "#246eff"
     return render_template('home.html', color=color)
 
 
@@ -16,23 +22,62 @@ def aboutpage():
     return render_template('about.html', color=color)
 
 
+@app.route('/pass', methods=["GET", "POST"])  # Route to the password page
+def passwordpage():
+    color = "#246eff"
+    if request.method == "POST":
+        password = request.form.get('pass')
+        if 'garboday' not in password:
+            return redirect("http://127.0.0.1:5000")
+        if 'garboday' == password:
+            return redirect("http://127.0.0.1:5000/pending")
+    return render_template('password.html', color=color)
+
+
+@app.route('/pending')  # Route to the pending page
+def pendingpage():
+    color = "#246eff"
+    conn = sqlite3.connect("Webdatabase.db")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM Pending")
+    trashes = cur.fetchall()
+    return render_template('pending.html', color=color, trashes=trashes)
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.',
+                                               1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @app.route('/help', methods=["GET", "POST"])  # Route to the help page
 def helppage():
     color = "#246eff"
     hidden = "hidden"
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
+    # in other words, someone clicked submit, 'POSTing' info
+    # back to the server
     if request.method == "POST":
         name = request.form.get('name')
         description = request.form.get('description')
         instructions = request.form.get('instructions')
         bins = request.form.get('bins')
         rrr = request.form.get('rrr')
-        cur.execute("SELECT id FROM Trash ORDER BY ID DESC")
-        id = cur.fetchone()
-        cur.execute("""INSERT INTO Trash (id, name, description, instructions,
-                    bins, rrr) VALUES (?,?,?,?,?,?)""",
-                    (id[0]+1, name, description, instructions, bins, rrr))
+        # image = request.form.get('image')
+        file = request.files['image']
+        print("start")
+        if 'image' not in request.files:
+            print("No file was attached")
+        if file and allowed_file(file.filename):
+            print("got file ok")
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            print("File path is " + os.path.join(app.config['UPLOAD_FOLDER'],
+                                                 filename))
+        # Stores the inputted info into the database
+        cur.execute("""INSERT INTO Pending (name, description, instructions,
+                    bins, rrr, image) VALUES (?,?,?,?,?,?)""",
+                    (name, description, instructions, bins, rrr, filename))
         conn.commit()
         conn.close()
         hidden = " "
@@ -62,7 +107,7 @@ def item(id):
         idp = id
         idp10 = id
         hideforw = "hidden"
-# Limits the user for going past page beyond the num of items
+    # Limits the user for going past page beyond the num of items
     if id == 1 or id <= 1:
         id = 1
         idm = id
@@ -117,16 +162,18 @@ def search(id):
         hideforw = "hidden"
     return render_template('search.html', trashes=trashes, color=color,
                            idp=idp, idm=idm, hideprev=hideprev,
-                           hideforw=hideforw,)
+                           hideforw=hideforw)
 
 
 @app.route('/search', methods=['GET', 'POST'])  # Route to search page
 def searched():
+    hideforw = "hidden"
+    hideprev = "hidden"
+    # in other words, someone clicked submit, 'POSTing' info
+    # back to the server
     if request.method == 'POST':
         conn = sqlite3.connect("Webdatabase.db")
         cur = conn.cursor()
-        # in other words, someone clicked submit, 'POSTing' info
-        # back to the server
         search = f"%{request.form.get('searchterm')}%"
         color = "#246eff"
         # here is where you would do a query on your table for the search term
@@ -134,9 +181,11 @@ def searched():
         cur.execute("SELECT id, name, image FROM Trash WHERE name LIKE ?",
                     (search, ))
         trashes = cur.fetchall()
-        return render_template('search.html', trashes=trashes, color=color)
+        return render_template('search.html', trashes=trashes, color=color,
+                               hideprev=hideprev, hideforw=hideforw)
     else:
-        return "poop"
+        return render_template('search.html', trashes=trashes, color=color,
+                               hideprev=hideprev, hideforw=hideforw)
 
 
 if __name__ == "__main__":
