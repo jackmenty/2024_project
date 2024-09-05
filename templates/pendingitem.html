@@ -1,0 +1,21 @@
+{% extends 'layout.html' %} 
+{% block content %} 
+<div class="box" style="display:block">
+    <h1 style="text-align: center;">{{trash[1]}}</h1>
+    <img src = "/static/images/{{trash[6]}}" class = "image" style="text-align: center;" title="{{trash[1]}}"/>
+    <h2 style="text-align: center;">{{trash[2]}}</h2>
+    <p style="text-align: center;">{{trash[3]}}</p>
+    <p style="text-align: center;">Bins: {{trash[4]}}</p>
+    <p style="text-align: center;">RRR: {{trash[5]}}</p>
+</div>
+<form method="POST" action = "/penditem/{{trash[0]}}">
+    <input type="submit" name="add" value="add">
+    <input type="submit" name="delete" value="delete">
+</form>
+<div style="text-align: center;">
+    <a class="button" {{hideprevall}} href="{{ '/penditem/%s'%idm10 }}">◀◀</a>
+    <a class="button" {{hideprev}} href="{{ '/penditem/%s'%idm }}">◀Prev</a>
+    <a class="button" {{hideforw}} href="{{ '/penditem/%s'%idp }}">Next▶</a>
+    <a class="button" {{hideforwall}} href="{{ '/penditem/%s'%idp10 }}">▶▶</a>
+</div>
+{% endblock %}

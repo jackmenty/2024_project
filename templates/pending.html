@@ -1,12 +1,17 @@
 {% extends 'layout.html' %} 
 {% block content %} 
+<div class="grid">
 {% for trash in trashes %}
-<div class="displaydiv" style="text-align: center;">
-    <h2>{{trash[0]}}</h2>
-    <h2>{{trash[1]}}</h2>
-    <h2>{{trash[2]}}</h2>
-    <h2>{{trash[3]}}</h2>
-    <h2>{{trash[4]}}</h2>
-</div>
+    <div class="displaydiv" style="text-align: center;" method>
+        <h2>{{trash[0]}}</h2>
+        <h2>{{trash[1]}}</h2>
+        <h2>{{trash[2]}}</h2>
+        <h2>{{trash[3]}}</h2>
+        <h2>{{trash[4]}}</h2>
+        <form method = "POST" >
+            <input type="submit" name="go" value="go" href="/penditem/{{trash[0]}}" formaction="/penditem/{{trash[0]}}">
+        </form>
+    </div>
     {% endfor %}
+</div>
 {% endblock %}
