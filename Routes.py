@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, url_for
 from werkzeug.utils import secure_filename
 import sqlite3
 import os
@@ -7,63 +7,73 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'static/images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+DEFAULT = "#246eff"
+RECYCLE = "#f7cb15"
+TRASH = "#ff495c"
+COMPOST = "#3ddc97"
+HIDDEN = "hidden"
 
 
-@app.route('/')  # Route to the homepage
+@app.errorhandler(404)
+def page_not_found(e):
+    color = DEFAULT
+    return render_template('404.html', color=color)
+
+
+@app.route('/')
 def homepage():
-    # variable defines navbar color, repeats on most fucntions
-    color = "#246eff"
+    color = DEFAULT
     return render_template('home.html', color=color)
 
 
-@app.route('/about')  # Route to the about page
+@app.route('/about')
 def aboutpage():
-    color = "#246eff"
+    color = DEFAULT
     return render_template('about.html', color=color)
 
 
-@app.route('/pass', methods=["GET", "POST"])  # Route to the password page
+@app.route('/pass', methods=["GET", "POST"])
 def passwordpage():
-    color = "#246eff"
+    color = DEFAULT
+    conn = sqlite3.connect("Webdatabase.db")
+    cur = conn.cursor()
+    cur.execute("SELECT pass FROM Password")
+    correct_password = cur.fetchone()
     if request.method == "POST":
         password = request.form.get('pass')
-        if 'garboday' not in password:
-            return redirect("http://127.0.0.1:5000")
-        if 'garboday' == password:
-            return redirect("http://127.0.0.1:5000/pending")
+        if password == correct_password[0]:
+            return redirect(url_for('pendingpage'))
+        elif password != correct_password[0]:
+            return redirect(url_for('homepage'))
     return render_template('password.html', color=color)
 
 
-@app.route('/pending', methods=["GET", "POST"])  # Route to the pending page
+@app.route('/pending', methods=["GET", "POST"])
 def pendingpage():
-    color = "#246eff"
+    color = DEFAULT
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
     cur.execute("SELECT * FROM Pending")
     trashes = cur.fetchall()
-    if request.method == "POST":
-        if "go" in request.form:
-            pass
     return render_template('pending.html', color=color, trashes=trashes)
 
 
-@app.route('/penditem/<int:id>', methods=["GET", "POST"])  # Route to the pending page
+@app.route('/penditem/<int:id>', methods=["GET", "POST"])
 def pendingitempage(id):
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
-    # Selects all info of a row where the ID equals to the page ID
     cur.execute("SELECT * FROM Pending WHERE id=?", (id,))
     trash = cur.fetchone()
     cur.execute("SELECT id FROM Pending ORDER BY ID DESC")
-    limitbig = cur.fetchone()
-    idp = id+1
-    idm = id-1
-    idp10 = id+10
-    idm10 = id-10
-    hideprevall = " "
-    hideforwall = " "
-    hideforw = " "
-    hideprev = " "
+    Max_limit = cur.fetchone()
+    Next_button = id+1
+    Previous_button = id-1
+    Next_by_10_button = id+10
+    Previous_by_10_button = id-10
+    Hide_previous_by_10_button = None
+    Hide_next_by_10_button = None
+    Hide_next_button = None
+    Hide_previous_button = None
     print(request.method)
     if request.method == "POST":
         if "add" in request.form:
@@ -83,51 +93,57 @@ def pendingitempage(id):
             cur.execute("""DELETE FROM Pending WHERE id=?""", (id,))
             conn.commit()
             return redirect("http://127.0.0.1:5000")
-    # Limits the user for going past page beyond the num of items
-    if id == limitbig[0] or id >= limitbig[0]:
-        id = limitbig[0]
-        idp = id
-        idp10 = id
-        hideforw = "hidden"
-    # Limits the user for going past page beyond the num of items
-    if id == 1 or id <= 1:
-        id = 1
-        idm = id
-        idm10 = id
-        hideprev = "hidden"
+    # Checks if user exceeds past the max limit of the pending table
+    if id > Max_limit[0]:
+        return redirect(url_for('homepage'))
+    # Limits the user for going past the max limit
+    if id == Max_limit[0] or id >= Max_limit[0]:
+        id = Max_limit[0]
+        Next_button = id
+        Next_by_10_button = id
+        Hide_next_button = HIDDEN
+    # Checks if user goes below the minimum database limit
+    if id <= 0:
+        return redirect(url_for('homepage'))
+    # Limits the user for going below the minimum limit
+    if id == 1:
+        Hide_previous_button = HIDDEN
+    # Checks for the 'go previous by 10 button'
     if id <= 10:
-        hideprevall = "hidden"
-    if id+9 >= limitbig[0]:
-        hideforwall = "hidden"
+        Hide_previous_by_10_button = HIDDEN
+    # Checks for the 'go forward  by 10 button'
+    if id+9 >= Max_limit[0]:
+        Hide_next_by_10_button = HIDDEN
     cur = conn.cursor()
-    # Takes the condition number for color
     cur.execute("SELECT bins FROM Pending WHERE id=?", (id,))
     bins = cur.fetchone()
-    color = "#246eff"
+    color = DEFAULT
     # Below conditions checks number for unique colors
     if bins == (1,):
-        color = "#246eff"
+        color = DEFAULT
     if bins == (2,) or bins == (6,):
-        color = "#ff495c"
+        color = TRASH
     if bins == (3,) or bins == (5,) or bins == (7,) or bins == (8,):
-        color = "#f7cb15"
+        color = RECYCLE
     if bins == (4,):
-        color = "#3ddc97"
-    return render_template('pendingitem.html', trash=trash, idp=idp, idm=idm,
-                           idp10=idp10, idm10=idm10, hideprev=hideprev,
-                           hideforw=hideforw, hideprevall=hideprevall,
-                           hideforwall=hideforwall, color=color)
+        color = COMPOST
+    return render_template('pendingitem.html', trash=trash, idp=Next_button,
+                           idm=Previous_button, idp10=Next_by_10_button,
+                           idm10=Previous_by_10_button,
+                           hideprev=Hide_previous_button,
+                           hideforw=Hide_next_button,
+                           hideprevall=Hide_previous_by_10_button,
+                           hideforwall=Hide_next_by_10_button, color=color)
 
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.',
-                                               1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/help', methods=["GET", "POST"])  # Route to the help page
+@app.route('/help', methods=["GET", "POST"])
 def helppage():
-    color = "#246eff"
-    hidden = "hidden"
+    color = DEFAULT
+    hidden = HIDDEN
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
     # in other words, someone clicked submit, 'POSTing' info
@@ -140,7 +156,6 @@ def helppage():
         rrr = request.form.get('rrr')
         # image = request.form.get('image')
         file = request.files['image']
-        print("start")
         if 'image' not in request.files:
             print("No file was attached")
         if file and allowed_file(file.filename):
@@ -149,118 +164,128 @@ def helppage():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             print("File path is " + os.path.join(app.config['UPLOAD_FOLDER'],
                                                  filename))
-        # Stores the inputted info into the database
         cur.execute("""INSERT INTO Pending (name, description, instructions,
                     bins, rrr, image) VALUES (?,?,?,?,?,?)""",
                     (name, description, instructions, bins, rrr, filename))
         conn.commit()
         conn.close()
-        hidden = " "
+        hidden = None
     return render_template('help.html', color=color, hidden=hidden)
 
 
-@app.route('/item/<int:id>')  # Route to a page about an item
+@app.route('/item/<int:id>')
 def item(id):
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
-    # Selects all info of a row where the ID equals to the page ID
     cur.execute("SELECT * FROM Trash WHERE id=?", (id,))
     trash = cur.fetchone()
     cur.execute("SELECT id FROM Trash ORDER BY ID DESC")
-    limitbig = cur.fetchone()
-    idp = id+1
-    idm = id-1
-    idp10 = id+10
-    idm10 = id-10
-    hideprevall = " "
-    hideforwall = " "
-    hideforw = " "
-    hideprev = " "
-    # Limits the user for going past page beyond the num of items
-    if id == limitbig[0] or id >= limitbig[0]:
-        id = limitbig[0]
-        idp = id
-        idp10 = id
-        hideforw = "hidden"
-    # Limits the user for going past page beyond the num of items
-    if id == 1 or id <= 1:
-        id = 1
-        idm = id
-        idm10 = id
-        hideprev = "hidden"
+    Max_limit = cur.fetchone()
+    Next_button = id+1
+    Previous_button = id-1
+    Next_by_10_button = id+10
+    Previous_by_10_button = id-10
+    Hide_previous_by_10_button = None
+    Hide_next_by_10_button = None
+    Hide_next_button = None
+    Hide_previous_button = None
+    # Checks if user exceeds past the max limit of the trash table
+    if id > Max_limit[0]:
+        return redirect(url_for('homepage'))
+    # Limits the user for going past the max limit
+    if id == Max_limit[0] or id >= Max_limit[0]:
+        id = Max_limit[0]
+        Next_button = id
+        Next_by_10_button = id
+        Hide_next_button = HIDDEN
+    # Checks if user goes below the minimum database limit
+    if id <= 0:
+        return redirect(url_for('homepage'))
+    # Limits the user for going below the minimum limit
+    if id == 1:
+        Hide_previous_button = HIDDEN
+    # Checks for the 'go previous by 10 button'
     if id <= 10:
-        hideprevall = "hidden"
-    if id+9 >= limitbig[0]:
-        hideforwall = "hidden"
+        Hide_previous_by_10_button = HIDDEN
+    # Checks for the 'go forward  by 10 button'
+    if id+9 >= Max_limit[0]:
+        Hide_next_by_10_button = HIDDEN
     cur = conn.cursor()
-    # Takes the condition number for color
     cur.execute("SELECT bins FROM Trash WHERE id=?", (id,))
     bins = cur.fetchone()
-    color = "#246eff"
+    color = DEFAULT
     # Below conditions checks number for unique colors
     if bins == (1,):
-        color = "#246eff"
+        color = DEFAULT
     if bins == (2,) or bins == (6,):
-        color = "#ff495c"
+        color = TRASH
     if bins == (3,) or bins == (5,) or bins == (7,) or bins == (8,):
-        color = "#f7cb15"
+        color = RECYCLE
     if bins == (4,):
-        color = "#3ddc97"
-    return render_template('item.html', trash=trash, idp=idp, idm=idm,
-                           idp10=idp10, idm10=idm10, hideprev=hideprev,
-                           hideforw=hideforw, hideprevall=hideprevall,
-                           hideforwall=hideforwall, color=color)
+        color = COMPOST
+    return render_template('item.html', trash=trash, idp=Next_button,
+                           idm=Previous_button, idp10=Next_by_10_button,
+                           idm10=Previous_by_10_button,
+                           hideprev=Hide_previous_button,
+                           hideforw=Hide_next_button,
+                           hideprevall=Hide_previous_by_10_button,
+                           hideforwall=Hide_next_by_10_button, color=color)
 
 
-@app.route('/search/<int:id>')  # Route to search page
+@app.route('/search/<int:id>')
 def search(id):
     conn = sqlite3.connect("Webdatabase.db")
     cur = conn.cursor()
     cur.execute("""SELECT id, name, image FROM Trash WHERE id <= ? * 10
                 AND id > 10 * (?-1)""", (id, id))
     trashes = cur.fetchall()
-    color = "#246eff"
+    color = DEFAULT
     cur.execute("SELECT id FROM Trash ORDER BY ID DESC")
-    limitbig = cur.fetchone()
-    hideforw = " "
-    hideprev = " "
-    idp = id+1
-    idm = id-1
-    # Limits the user going past page beyond the num of items
-    if id == 1 or id <= 1:
-        id = 1
-        idm = id
-        hideprev = "hidden"
-    if id > round(limitbig[0]/10):
-        id = limitbig[0]
-        idp = id
-        hideforw = "hidden"
+    Max_limit = cur.fetchone()
+    Hide_next_button = None
+    Hide_previous_button = None
+    Next_button = id+1
+    Previous_button = id-1
+    # Checks if user exceeds past the max limit
+    if id >= (Max_limit[0]/10) + 1:
+        print(Max_limit)
+        return redirect(url_for('homepage'))
+    # Limits the user from exceeding past the max limit
+    if id > (Max_limit[0]/10):
+        id = Max_limit[0]
+        Next_button = id
+        Hide_next_button = HIDDEN
+    # Checks if user goes below the minimum limit
+    if id <= 0:
+        return redirect(url_for('homepage'))
+    # Limits the user from going below the minimum limit
+    if id == 1:
+        Hide_previous_button = HIDDEN
     return render_template('search.html', trashes=trashes, color=color,
-                           idp=idp, idm=idm, hideprev=hideprev,
-                           hideforw=hideforw)
+                           idp=Next_button, idm=Previous_button,
+                           hideprev=Hide_previous_button,
+                           hideforw=Hide_next_button)
 
 
-@app.route('/search', methods=['GET', 'POST'])  # Route to search page
+@app.route('/search', methods=['GET', 'POST'])
 def searched():
-    hideforw = "hidden"
-    hideprev = "hidden"
-    # in other words, someone clicked submit, 'POSTing' info
-    # back to the server
+    Hide_next_button = HIDDEN
+    Hide_previous_button = HIDDEN
     if request.method == 'POST':
         conn = sqlite3.connect("Webdatabase.db")
         cur = conn.cursor()
         search = f"%{request.form.get('searchterm')}%"
-        color = "#246eff"
-        # here is where you would do a query on your table for the search term
-        # provided, have a look at using LIKE and % in SQLite - something like
+        color = DEFAULT
         cur.execute("SELECT id, name, image FROM Trash WHERE name LIKE ?",
                     (search, ))
         trashes = cur.fetchall()
         return render_template('search.html', trashes=trashes, color=color,
-                               hideprev=hideprev, hideforw=hideforw)
+                               hideprev=Hide_previous_button,
+                               hideforw=Hide_next_button)
     else:
         return render_template('search.html', trashes=trashes, color=color,
-                               hideprev=hideprev, hideforw=hideforw)
+                               hideprev=Hide_previous_button,
+                               hideforw=Hide_next_button)
 
 
 if __name__ == "__main__":
