@@ -181,6 +181,9 @@ def item(id):
     cur = conn.cursor()
     cur.execute("SELECT * FROM Trash WHERE id=?", (id,))
     trash = cur.fetchone()
+    cur.execute("""SELECT * FROM RRR WHERE id =
+                (SELECT rrr FROM Trash WHERE id=?)""", (id,))
+    rrr = cur.fetchone()
     cur.execute("SELECT id FROM Trash ORDER BY ID DESC")
     max_limit = cur.fetchone()
     next_button = id+1
@@ -225,7 +228,7 @@ def item(id):
         color = RECYCLE
     if bins == (4,):
         color = COMPOST
-    return render_template('item.html', trash=trash, idp=next_button,
+    return render_template('item.html', trash=trash, rrr=rrr, idp=next_button,
                            idm=previous_button, idp10=next_by_10_button,
                            idm10=previous_by_10_button,
                            hideprev=hide_previous_button,

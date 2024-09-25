@@ -1,10 +1,13 @@
 {% extends 'layout.html' %} 
 {% block content %} 
 <div class="box" style="display:block">
-    <h1 style="text-align: center;">{{trash[1]}}</h1>
+    <h1>{{trash[1]}}</h1>
     <img src = "/static/images/{{trash[6]}}" class = "image" style="text-align: center;" title="{{trash[1]}}"/>
-    <h2 style="text-align: center;">{{trash[2]}}</h2>
-    <p style="text-align: center;">{{trash[3]}}</p>
+    <h2>{{trash[2]}}</h2>
+    <p>{{trash[3]}}</p>
+    <p>Reuse: {{rrr[1]}}<br>
+        Reduce: {{rrr[2]}}<br>
+        Recycle: {{rrr[3]}}</p>
 </div>
 <div style="text-align: center;">
     <a class="button" {{hideprevall}} href="{{ '/item/%s'%idm10 }}">◀◀</a>
