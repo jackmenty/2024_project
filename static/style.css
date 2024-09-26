@@ -99,6 +99,12 @@ body {
   grid-template-rows: 1fr 1fr;
 }
 
+.gridpend{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
 .displayimg{
   margin-top:10px;
   width: 50%;
@@ -118,6 +124,16 @@ body {
 }
 
 .displaydiv{
+  border: 2.5px dashed black;
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display:block;
+  background-color: rgb(231, 231, 231);
+}
+
+.displaydivpend{
   border: 2.5px dashed black;
   width: 100%;
   height: 100%;
@@ -245,6 +261,7 @@ input[type=submit], button[type=submit]{
   font-style: normal;
   font-size:225%;
   width: 25%;
+  margin: 2.25%;
 }
 
 .front_page_link{

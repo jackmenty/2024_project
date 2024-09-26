@@ -1,8 +1,8 @@
 {% extends 'layout.html' %} 
 {% block content %} 
-<div class="grid">
+<div class="gridpend">
 {% for trash in trashes %}
-    <div class="displaydiv" style="text-align: center;" method>
+    <div class="displaydivpend" style="text-align: center;" method>
         <h2>{{trash[1]}}</h2>
         <img class="displayimg" src="/static/images/{{trash[6]}}"/>
         <p>{{trash[2]}}</p>
